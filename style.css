@@ -42,4 +42,13 @@ body > header:first-child {
 .form {
   background-color: beige;
   padding: 1rem;
+  border: var(--modal-border);
+}
+
+form[class="invisible"] {
+  display: none;
+}
+
+.visible {
+  display: block;
 }

@@ -11,11 +11,24 @@
     <header>Odin Library</header>
     <div class="wrapper"></div>
     <div class="form">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae
-      tempora animi fugiat fuga temporibus quia commodi vel, eius dolorem illo
-      doloremque ad ipsum reiciendis esse exercitationem quos ut minus tenetur?
-      <form action=""></form>
+      <form method="post" class="invisible">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="title" />
+        <br />
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" value="author" />
+        <br />
+        <label for="pages">Pages:</label>
+        <input type="number" min="0" id="pages" name="pages" value="pages" />
+        <br />
+        <label for="read">Read:</label>
+        <input type="checkbox" id="read" name="read" value="read" />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
     </div>
+    <button type="button" class="add-book">New book</button>
+    <footer>itchytasty</footer>
     <script src="script.js"></script>
   </body>
 </html>
