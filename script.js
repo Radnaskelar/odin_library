@@ -1,10 +1,4 @@
-let myLibrary = [
-  "Harry Potter",
-  "Fight Club",
-  "Game of Thrones",
-  "Lord of the Rings",
-  "IT",
-];
+let myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -27,23 +21,49 @@ function addBookToLibrary(bookObj) {
 const wrapper = document.querySelector(".wrapper");
 
 function displayBook() {
-  // eslint-disable-next-line no-plusplus
+  wrapper.innerHTML = "";
   for (let i = 0; i < myLibrary.length; i++) {
     let bookDiv = document.createElement("div");
-    wrapper.appendChild(bookDiv).textContent = myLibrary[i];
+    bookDiv.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+    wrapper.appendChild(bookDiv).innerHTML = myLibrary[i].info();
+    const removeButton = document.createElement("button");
+    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+    const content = document.createTextNode("Remove");
+    removeButton.appendChild(content);
+    bookDiv.appendChild(removeButton);
   }
 }
 
-function createBook() {
-  let newBook = new Book();
-}
-
-// event listener on button
+// event listener on submit button
 const addBookButton = document.querySelector(".add-book");
 
 const form = document.querySelector("form");
 
+const submitBookButton = form.querySelector("button");
+
+submitBookButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  let newBook = new Book(
+    document.getElementById("title").value,
+    document.getElementById("author").value,
+    document.getElementById("pages").value,
+    document.getElementById("read").value
+  );
+  console.log(newBook);
+  addBookToLibrary(newBook);
+  displayBook();
+  clearForm();
+  form.classList.remove("visible");
+});
+
+// display form button
 addBookButton.addEventListener("click", () => {
-  form.classList.remove("invisible");
   form.classList.add("visible");
 });
+
+function clearForm() {
+  document.getElementById("title").value = "";
+  document.getElementById("author").value = "";
+  document.getElementById("pages").value = "";
+  document.getElementById("read").value = "";
+}
