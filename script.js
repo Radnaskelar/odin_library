@@ -1,3 +1,4 @@
+// eslint-disable-next-line prefer-const
 let myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -20,17 +21,41 @@ function addBookToLibrary(bookObj) {
 // loop through array and display books on page
 const wrapper = document.querySelector(".wrapper");
 
+function createRemoveBtn() {
+  document.createElement("button");
+}
+
+let arrayIndex = "";
+
 function displayBook() {
   wrapper.innerHTML = "";
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < myLibrary.length; i++) {
-    let bookDiv = document.createElement("div");
+    const bookDiv = document.createElement("div");
+    bookDiv.setAttribute("class", "book-card");
     bookDiv.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+
     wrapper.appendChild(bookDiv).innerHTML = myLibrary[i].info();
+
     const removeButton = document.createElement("button");
     removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+
+    myLibrary[i].index = myLibrary.indexOf(myLibrary[i]);
+
     const content = document.createTextNode("Remove");
     removeButton.appendChild(content);
+
     bookDiv.appendChild(removeButton);
+
+    removeButton.addEventListener("click", () => {
+      bookDiv.remove();
+      let dataIndex = removeButton.getAttribute("data-index");
+      console.log(dataIndex);
+      myLibrary.splice(dataIndex, 1);
+      for (let j = 0; j < myLibrary.length; j++) {
+        myLibrary[j].index = myLibrary.indexOf(myLibrary[j]);
+      }
+    });
   }
 }
 
@@ -41,15 +66,22 @@ const form = document.querySelector("form");
 
 const submitBookButton = form.querySelector("button");
 
+function clearForm() {
+  document.getElementById("title").value = "";
+  document.getElementById("author").value = "";
+  document.getElementById("pages").value = "";
+  document.getElementById("read").value = "";
+}
+
 submitBookButton.addEventListener("click", (event) => {
   event.preventDefault();
-  let newBook = new Book(
+  const newBook = new Book(
     document.getElementById("title").value,
     document.getElementById("author").value,
     document.getElementById("pages").value,
     document.getElementById("read").value
   );
-  console.log(newBook);
+
   addBookToLibrary(newBook);
   displayBook();
   clearForm();
@@ -60,10 +92,3 @@ submitBookButton.addEventListener("click", (event) => {
 addBookButton.addEventListener("click", () => {
   form.classList.add("visible");
 });
-
-function clearForm() {
-  document.getElementById("title").value = "";
-  document.getElementById("author").value = "";
-  document.getElementById("pages").value = "";
-  document.getElementById("read").value = "";
-}

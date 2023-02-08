@@ -70,3 +70,15 @@ button {
 button:hover {
   opacity: 50%;
 }
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+}
+
+:required {
+  border: 1px solid red;
+}
