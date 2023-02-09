@@ -21,26 +21,20 @@ function addBookToLibrary(bookObj) {
 // loop through array and display books on page
 const wrapper = document.querySelector(".wrapper");
 
-function createRemoveBtn() {
-  document.createElement("button");
-}
-
-let arrayIndex = "";
-
 function displayBook() {
   wrapper.innerHTML = "";
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < myLibrary.length; i++) {
     const bookDiv = document.createElement("div");
     bookDiv.setAttribute("class", "book-card");
-    bookDiv.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
 
     wrapper.appendChild(bookDiv).innerHTML = myLibrary[i].info();
 
     const removeButton = document.createElement("button");
-    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
 
     myLibrary[i].index = myLibrary.indexOf(myLibrary[i]);
+
+    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
 
     const content = document.createTextNode("Remove");
     removeButton.appendChild(content);
@@ -49,11 +43,19 @@ function displayBook() {
 
     removeButton.addEventListener("click", () => {
       bookDiv.remove();
+
       let dataIndex = removeButton.getAttribute("data-index");
       console.log(dataIndex);
       myLibrary.splice(dataIndex, 1);
+      // eslint-disable-next-line no-plusplus
       for (let j = 0; j < myLibrary.length; j++) {
         myLibrary[j].index = myLibrary.indexOf(myLibrary[j]);
+        Array.from(wrapper.getElementsByTagName("button")).forEach((element) =>
+          element.removeAttribute("data-index")
+        );
+        Array.from(wrapper.getElementsByTagName("button")).forEach((element) =>
+          element.setAttribute("data-index", myLibrary.indexOf(myLibrary[j]))
+        );
       }
     });
   }
@@ -67,10 +69,7 @@ const form = document.querySelector("form");
 const submitBookButton = form.querySelector("button");
 
 function clearForm() {
-  document.getElementById("title").value = "";
-  document.getElementById("author").value = "";
-  document.getElementById("pages").value = "";
-  document.getElementById("read").value = "";
+  form.reset();
 }
 
 submitBookButton.addEventListener("click", (event) => {
