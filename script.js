@@ -7,11 +7,15 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.info = function () {
-    return `${title} by ${author}, ${pages}, ${read}`;
+    return `${title} by ${author}, ${pages} pages.`;
   };
 }
 
-Book.prototype.toggleRead = function () {};
+Book.prototype.toggleRead = function () {
+  if (this.read === false) {
+    this.read = true;
+  } else this.read = false;
+};
 
 function addBookToLibrary(bookObj) {
   // eslint-disable-next-line no-alert
@@ -25,27 +29,24 @@ function displayBook() {
   wrapper.innerHTML = "";
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < myLibrary.length; i++) {
-    const bookDiv = document.createElement("div");
-    bookDiv.setAttribute("class", "book-card");
-
-    wrapper.appendChild(bookDiv).innerHTML = myLibrary[i].info();
-
-    const removeButton = document.createElement("button");
-
     myLibrary[i].index = myLibrary.indexOf(myLibrary[i]);
 
-    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+    // book div
+    const bookDiv = document.createElement("div");
+    bookDiv.setAttribute("class", "book-card");
+    wrapper.appendChild(bookDiv).innerHTML = myLibrary[i].info();
 
+    // book remove button
+    const removeButton = document.createElement("button");
+    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
     const content = document.createTextNode("Remove");
     removeButton.appendChild(content);
-
     bookDiv.appendChild(removeButton);
-
     removeButton.addEventListener("click", () => {
       bookDiv.remove();
 
-      let dataIndex = removeButton.getAttribute("data-index");
-      console.log(dataIndex);
+      const dataIndex = removeButton.getAttribute("data-index");
+
       myLibrary.splice(dataIndex, 1);
       // eslint-disable-next-line no-plusplus
       for (let j = 0; j < myLibrary.length; j++) {
@@ -58,6 +59,18 @@ function displayBook() {
         );
       }
     });
+
+    // toggle book read
+    const toggleButton = document.createElement("button");
+    toggleButton.setAttribute("class", "read unread");
+    const read = document.createTextNode("Read");
+    toggleButton.appendChild(read);
+    bookDiv.appendChild(toggleButton);
+
+    toggleButton.addEventListener(
+      "click",
+      () => (myLibrary[i].toggleRead())
+    );
   }
 }
 
@@ -72,13 +85,23 @@ function clearForm() {
   form.reset();
 }
 
+let checkbox = document.querySelector("input[type=checkbox]");
+
+function readStatus() {
+  if (checkbox.checked) {
+    return true;
+  } if (!checkbox.checked) {
+    return false;
+  }
+}
+
 submitBookButton.addEventListener("click", (event) => {
   event.preventDefault();
   const newBook = new Book(
     document.getElementById("title").value,
     document.getElementById("author").value,
     document.getElementById("pages").value,
-    document.getElementById("read").value
+    readStatus()
   );
 
   addBookToLibrary(newBook);

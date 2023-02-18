@@ -10,10 +10,10 @@
   font-family: "Roboto", sans-serif;
 }
 
-@font-face {
+/* @font-face {
   font-family: norse-bold;
   src: url("Norse-Bold.otf");
-}
+} */
 
 .library {
   display: flex;
