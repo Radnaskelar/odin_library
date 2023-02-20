@@ -38,39 +38,48 @@ function displayBook() {
 
     // book remove button
     const removeButton = document.createElement("button");
-    removeButton.setAttribute("data-index", myLibrary.indexOf(myLibrary[i]));
+    removeButton.setAttribute("data-index", i);
+    removeButton.setAttribute("class", "remove-btn");
     const content = document.createTextNode("Remove");
     removeButton.appendChild(content);
     bookDiv.appendChild(removeButton);
-    removeButton.addEventListener("click", () => {
-      bookDiv.remove();
 
-      const dataIndex = removeButton.getAttribute("data-index");
+    removeButton.addEventListener("click", (e) => {
+      const dataIndex = e.target.getAttribute("data-index");
+      e.target.parentElement.remove();
 
       myLibrary.splice(dataIndex, 1);
       // eslint-disable-next-line no-plusplus
-      for (let j = 0; j < myLibrary.length; j++) {
-        myLibrary[j].index = myLibrary.indexOf(myLibrary[j]);
-        Array.from(wrapper.getElementsByTagName("button")).forEach((element) =>
-          element.removeAttribute("data-index")
-        );
-        Array.from(wrapper.getElementsByTagName("button")).forEach((element) =>
-          element.setAttribute("data-index", myLibrary.indexOf(myLibrary[j]))
-        );
+
+      const removeButtons = Array.from(
+        wrapper.getElementsByClassName("remove-btn")
+      );
+      const readButtons = Array.from(
+        wrapper.getElementsByClassName("read-btn")
+      );
+
+      // eslint-disable-next-line no-plusplus
+      for (let j = 0; j < removeButtons.length; j++) {
+        removeButtons[j].removeAttribute("data-index");
+        removeButtons[j].setAttribute("data-index", j);
+        readButtons[j].removeAttribute("data-index");
+        readButtons[j].setAttribute("data-index", j);
       }
     });
 
     // toggle book read
     const toggleButton = document.createElement("button");
-    toggleButton.setAttribute("class", "read unread");
+    toggleButton.setAttribute("class", "read unread read-btn");
+    toggleButton.setAttribute("data-index", i);
     const read = document.createTextNode("Read");
     toggleButton.appendChild(read);
     bookDiv.appendChild(toggleButton);
 
-    toggleButton.addEventListener(
-      "click",
-      () => (myLibrary[i].toggleRead())
-    );
+    toggleButton.addEventListener("click", (e) => {
+      let readIndex = e.target.getAttribute("data-index");
+      myLibrary[readIndex].toggleRead();
+      e.target.style.color = "red";
+    });
   }
 }
 
@@ -90,7 +99,8 @@ let checkbox = document.querySelector("input[type=checkbox]");
 function readStatus() {
   if (checkbox.checked) {
     return true;
-  } if (!checkbox.checked) {
+  }
+  if (!checkbox.checked) {
     return false;
   }
 }
