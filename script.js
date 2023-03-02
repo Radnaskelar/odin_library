@@ -82,21 +82,26 @@ function displayBook() {
     const toggleButton = document.createElement("button");
     toggleButton.setAttribute("class", "read-btn");
     toggleButton.setAttribute("data-index", i);
-    const read = document.createTextNode("Read");
-    toggleButton.appendChild(read);
+
     bookDiv.appendChild(toggleButton);
 
     if (myLibrary[i].read === true) {
       toggleButton.classList.add("read");
-    } else toggleButton.classList.add("unread");
+      toggleButton.innerHTML = "Read!";
+    } else {
+      toggleButton.classList.add("unread");
+      toggleButton.innerHTML = "Not read!";
+    }
 
     toggleButton.addEventListener("click", (e) => {
       let readIndex = e.target.getAttribute("data-index");
       myLibrary[readIndex].toggleRead();
       if (myLibrary[i].read === true) {
         toggleButton.classList.replace("unread", "read");
+        toggleButton.innerHTML = "Read!";
       } else if (myLibrary[i].read === false) {
         toggleButton.classList.replace("read", "unread");
+        toggleButton.innerHTML = "Not read!";
       }
     });
   }
