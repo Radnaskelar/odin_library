@@ -82,3 +82,15 @@ button:hover {
 :required {
   border: 1px solid red;
 }
+
+:valid:not(button) {
+  border: 1px solid green;
+}
+
+button.read {
+  background-color: green;
+}
+
+button.unread {
+  background-color: red;
+}

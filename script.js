@@ -22,6 +22,17 @@ function addBookToLibrary(bookObj) {
   myLibrary.push(bookObj);
 }
 
+let checkbox = document.querySelector("input[type=checkbox]");
+
+function readStatus() {
+  if (checkbox.checked) {
+    return true;
+  }
+  if (!checkbox.checked) {
+    return false;
+  }
+}
+
 // loop through array and display books on page
 const wrapper = document.querySelector(".wrapper");
 
@@ -69,16 +80,24 @@ function displayBook() {
 
     // toggle book read
     const toggleButton = document.createElement("button");
-    toggleButton.setAttribute("class", "read unread read-btn");
+    toggleButton.setAttribute("class", "read-btn");
     toggleButton.setAttribute("data-index", i);
     const read = document.createTextNode("Read");
     toggleButton.appendChild(read);
     bookDiv.appendChild(toggleButton);
 
+    if (myLibrary[i].read === true) {
+      toggleButton.classList.add("read");
+    } else toggleButton.classList.add("unread");
+
     toggleButton.addEventListener("click", (e) => {
       let readIndex = e.target.getAttribute("data-index");
       myLibrary[readIndex].toggleRead();
-      e.target.style.color = "red";
+      if (myLibrary[i].read === true) {
+        toggleButton.classList.replace("unread", "read");
+      } else if (myLibrary[i].read === false) {
+        toggleButton.classList.replace("read", "unread");
+      }
     });
   }
 }
@@ -94,19 +113,8 @@ function clearForm() {
   form.reset();
 }
 
-let checkbox = document.querySelector("input[type=checkbox]");
-
-function readStatus() {
-  if (checkbox.checked) {
-    return true;
-  }
-  if (!checkbox.checked) {
-    return false;
-  }
-}
-
-submitBookButton.addEventListener("click", (event) => {
-  event.preventDefault();
+submitBookButton.addEventListener("click", (e) => {
+  e.preventDefault();
   const newBook = new Book(
     document.getElementById("title").value,
     document.getElementById("author").value,
