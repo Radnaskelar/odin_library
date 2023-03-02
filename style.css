@@ -22,7 +22,7 @@
 
 body > header:first-child {
   font-weight: bold;
-  background-color: lightgray;
+  background-color: #fff;
   padding: 1rem;
   font-family: norse-bold, sans-serif;
   font-size: 1.5rem;
@@ -46,7 +46,7 @@ body > header:first-child {
 }
 
 .form {
-  background-color: lightgray;
+  background-color: #fff;
   padding: 1rem;
   border: var(--modal-border);
 }
@@ -60,9 +60,10 @@ form {
 }
 
 button {
-  background-color: skyblue;
+  background-color: lightgoldenrodyellow;
   padding: 0.5rem;
   border-radius: 15px;
+  border: 2px solid goldenrod;
   width: max-content;
   align-self: center;
 }
@@ -80,17 +81,65 @@ button:hover {
 }
 
 :required {
-  border: 1px solid red;
-}
-
-:valid:not(button) {
-  border: 1px solid green;
+  border-radius: 15px;
+  border: 1px solid;
 }
 
 button.read {
-  background-color: green;
+  border-radius: 15px;
+  background-color: lightgreen;
 }
 
 button.unread {
+  background-color: lightcoral;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: bold;
+  margin: 0.6rem;
+  padding: 5px;
+}
+
+input:optional {
+  border: 1px solid silver;
+}
+
+input + span {
+  position: relative;
+}
+
+input:required + span::after {
+  font-size: 0.6rem;
+  position: absolute;
+  content: "required";
+  color: white;
   background-color: red;
+  padding: 1px 4px;
+  top: 27px;
+  left: -55px;
+  border-radius: 15px;
+}
+
+input:invalid + span {
+  position: relative;
+}
+
+input:invalid + span::before {
+  position: absolute;
+  content: "✖";
+  color: red;
+  padding: 4px 7px;
+  top: -5px;
+}
+
+input:valid + span::before {
+  position: absolute;
+  content: "✓";
+  color: green;
+  padding: 4px 7px;
+  top: -5px;
 }

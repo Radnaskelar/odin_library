@@ -22,8 +22,9 @@ function addBookToLibrary(bookObj) {
   myLibrary.push(bookObj);
 }
 
-let checkbox = document.querySelector("input[type=checkbox]");
+const checkbox = document.querySelector("input[type=checkbox]");
 
+// eslint-disable-next-line consistent-return
 function readStatus() {
   if (checkbox.checked) {
     return true;
@@ -94,7 +95,7 @@ function displayBook() {
     }
 
     toggleButton.addEventListener("click", (e) => {
-      let readIndex = e.target.getAttribute("data-index");
+      const readIndex = e.target.getAttribute("data-index");
       myLibrary[readIndex].toggleRead();
       if (myLibrary[i].read === true) {
         toggleButton.classList.replace("unread", "read");
@@ -118,8 +119,8 @@ function clearForm() {
   form.reset();
 }
 
-submitBookButton.addEventListener("click", (e) => {
-  e.preventDefault();
+submitBookButton.addEventListener("click", () => {
+  // e.preventDefault();
   const newBook = new Book(
     document.getElementById("title").value,
     document.getElementById("author").value,
@@ -131,6 +132,8 @@ submitBookButton.addEventListener("click", (e) => {
   displayBook();
   clearForm();
   form.classList.remove("visible");
+  submitBookButton.checkValidity();
+  submitBookButton.reportValidity();
 });
 
 // display form button
